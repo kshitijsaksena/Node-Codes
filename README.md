@@ -16,6 +16,12 @@ This repo is intended to provide beginner to intermediate level Node.js develope
 8. [Write a function in Node.js that accepts a POST request containing JSON data and saves it to a file named "data.json"](#8-write-a-function-in-nodejs-that-accepts-a-post-request-containing-json-data-and-saves-it-to-a-file-named-datajson)
 9. [Write a function in Node.js that uses the "crypto" module to generate a random 32-byte hexadecimal string](#9-write-a-function-in-nodejs-that-uses-the-crypto-module-to-generate-a-random-32-byte-hexadecimal-string)
 10. [Write a function in Node.js that uses the "cluster" module to create a simple cluster of worker processes that each log a message to the console](#10-write-a-function-in-nodejs-that-uses-the-cluster-module-to-create-a-simple-cluster-of-worker-processes-that-each-log-a-message-to-the-console)
+11. [Write a function that returns a Promise which resolves with a random number after a delay of 1 second](#11-write-a-function-that-returns-a-promise-which-resolves-with-a-random-number-after-a-delay-of-1-second)
+12. [Write a function that returns a Promise which rejects with an error message after a delay of 500ms](#12-write-a-function-that-returns-a-promise-which-rejects-with-an-error-message-after-a-delay-of-500ms)
+13. [Write a function that takes an array of numbers as input and returns a Promise which resolves with the sum of all the numbers in the array](#13-write-a-function-that-takes-an-array-of-numbers-as-input-and-returns-a-promise-which-resolves-with-the-sum-of-all-the-numbers-in-the-array)
+14. [Write a function that takes an array of Promises as input and returns a Promise which resolves with an array of resolved values from the input Promises](#14-write-a-function-that-takes-an-array-of-promises-as-input-and-returns-a-promise-which-resolves-with-an-array-of-resolved-values-from-the-input-promises)
+15. [Write a function that fetches data from an API endpoint using the Axios library and returns a Promise which resolves with the response data. The function should reject the Promise if the API request fails](#15-write-a-function-that-fetches-data-from-an-api-endpoint-using-the-axios-library-and-returns-a-promise-which-resolves-with-the-response-data-the-function-should-reject-the-promise-if-the-api-request-fails)
+
 ___
 #### 1. Write a function in Node.js that reads a file named "data.txt" and logs its contents to the console
 ```js
@@ -200,6 +206,81 @@ function generateClusters(){
 }
 
 generateClusters();
+```
+**[⬆ Back to Top](#coding-question-on-nodejs)**
+___
+#### 11. Write a function that returns a Promise which resolves with a random number after a delay of 1 second
+```js
+function randomPromise(){
+    let p = new Promise((resolve,reject)=>{
+        setTimeout(() => {
+            resolve(Math.floor(Math.random() * 100));
+        }, 1000);
+    })
+
+    return p;
+}
+
+randomPromise().then(data=>console.log(data)); 
+```
+**[⬆ Back to Top](#coding-question-on-nodejs)**
+___
+#### 12. Write a function that returns a Promise which rejects with an error message after a delay of 500ms
+```js
+function rejectPromise(){
+    let p = new Promise((resolve,reject)=>{
+        setTimeout(() => {
+            reject(new Error('Error Message'));
+        }, 500);
+    });
+
+    return p;
+}
+
+rejectPromise().catch(err=>console.log(err));
+```
+**[⬆ Back to Top](#coding-question-on-nodejs)**
+___
+#### 13. Write a function that takes an array of numbers as input and returns a Promise which resolves with the sum of all the numbers in the array
+```js
+function sumArray(arr){
+    let p = new Promise((resolve,reject)=>{
+        let sum = arr.reduce((acc,current)=> acc+=current);
+        resolve(sum);
+    });
+
+    return p;
+}
+
+sumArray([1,2,3,4]).then(data=>console.log(data));
+```
+**[⬆ Back to Top](#coding-question-on-nodejs)**
+___
+#### 14. Write a function that takes an array of Promises as input and returns a Promise which resolves with an array of resolved values from the input Promises
+```js
+function resolvePromise(p){
+    return Promise.all(p)
+}
+
+let p1 = Promise.resolve(1);
+let p2 = Promise.resolve(2);
+let p3 = Promise.resolve(3);
+
+resolvePromise([p1,p2,p3]).then(data=>console.log(data)).catch(err=>console.log(err));
+```
+**[⬆ Back to Top](#coding-question-on-nodejs)**
+___
+#### 15. Write a function that fetches data from an API endpoint using the Axios library and returns a Promise which resolves with the response data. The function should reject the Promise if the API request fails
+```js
+const axios = require('axios')
+
+function fetchData(){
+    return axios.get('https://random-data-api.com/api/v2/users')
+        .then((data)=>data.data)
+        .catch((error)=>error);
+}
+
+ fetchData().then(data=>console.log(data)).catch(err=>console.log(err));
 ```
 **[⬆ Back to Top](#coding-question-on-nodejs)**
 ___
